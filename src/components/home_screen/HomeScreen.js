@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
+import { newListHandler } from '../../store/database/asynchHandler';
 
 class HomeScreen extends Component {
 
@@ -43,8 +44,12 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    createNewList: data => dispatch(newListHandler(data))
+});
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       { collection: 'todoLists' },
     ]),
