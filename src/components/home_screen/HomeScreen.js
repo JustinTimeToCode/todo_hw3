@@ -8,6 +8,13 @@ import { newListHandler } from '../../store/database/asynchHandler';
 
 class HomeScreen extends Component {
 
+    handleNewList = () =>{
+
+        let doc = this.props.createNewList();
+        console.log(doc);
+        return <Redirect to={`/todoList/${doc.id}`}/>
+    }
+
     render() {
         if (!this.props.auth.uid) {
             return <Redirect to="/login" />;
@@ -38,14 +45,16 @@ class HomeScreen extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+    const { id } = ownProps.match.params
+    
     return {
         auth: state.firebase.auth
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    createNewList: data => dispatch(newListHandler(data))
+    createNewList: () => dispatch(newListHandler())
 });
 
 export default compose(
