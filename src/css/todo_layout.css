@@ -34,6 +34,14 @@ form button, form h5 {
   margin: 20px 0;
 }
 
+#list_trash {
+  position: absolute;
+  left: 85%;
+  width: 15%;
+  text-align: right;
+  top: 5%;
+}
+
 input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),

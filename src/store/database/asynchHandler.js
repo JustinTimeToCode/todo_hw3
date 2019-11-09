@@ -34,7 +34,7 @@ export const registerHandler = (newUser, firebase) => (dispatch, getState, { get
     });
 };
 
-export const newListHandler = (firebase) => (dispatch, getState, {getFirestore}) => {
+export const newListHandler = (firebase) => (dispatch, getState, { getFirestore }) => {
 
   const firestore = getFirestore();
   firestore.collection('todoLists').add({
@@ -52,7 +52,7 @@ export const newListHandler = (firebase) => (dispatch, getState, {getFirestore})
 
 }
 
-export const editListNameHandler = (doc, newName) => (dispatch, getState, {getFirestore}) =>{
+export const editListNameHandler = (doc, newName) => (dispatch, getState, { getFirestore }) =>{
   const firestore = getFirestore();
   console.log(doc.id);
   firestore.collection('todoLists').doc(doc.id).update({
@@ -66,10 +66,30 @@ export const editListNameHandler = (doc, newName) => (dispatch, getState, {getFi
 
 }
 
-export const editListOwnerHandler = (doc, newOwner) => (dispatch, getState, {getFirestore}) =>{
+export const editListOwnerHandler = (doc, newOwner) => (dispatch, getState, { getFirestore }) =>{
   const firestore = getFirestore();
   console.log(doc);
   firestore.collection('todoLists').doc(doc.id).update({
     owner: newOwner
+  }).then(res =>{
+    console.log(res);
+    dispatch(actionCreators.updateListOwnerSuccess);
+  }).catch(err =>{
+    console.log(err);
+    dispatch(actionCreators.updateListOwnerError, err);
+  })
+}
+
+export const deleteListHandler = (doc) => (dispatch, getState, { getFirestore }) =>{
+  const firestore = getFirestore();
+  firestore
+  .collection('todoLists')
+  .doc(doc.id)
+  .delete()
+  .then(res =>{
+    console.log(res)
+  })
+  .catch(err =>{
+    console.log(err)
   })
 }

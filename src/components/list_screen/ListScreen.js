@@ -3,8 +3,10 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemsList from './ItemsList.js'
+import ListTrash from './ListTrash.js'
+import Modal from './Modal.js'
 import { firestoreConnect } from 'react-redux-firebase';
-import {editListNameHandler, editListOwnerHandler} from '../../store/database/asynchHandler'
+import {editListNameHandler, editListOwnerHandler, deleteListHandler} from '../../store/database/asynchHandler'
 
 class ListScreen extends Component {
     
@@ -13,6 +15,7 @@ class ListScreen extends Component {
 
         this.listNameRef = React.createRef();
         this.listOwnerRef = React.createRef();
+        // this.modalRef = React.createRef();
     }
     
     state = {
@@ -37,27 +40,44 @@ class ListScreen extends Component {
         this.props.updateListOwner(this.props.todoList, this.listOwnerRef.current.value);
     }
 
+    handleDeleteList = (e) => {
+        this.props.deleteList(this.props.todoList);
+        return <Redirect to="/"/>
+    }
+
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
         if (!auth.uid) {
             return <Redirect to="/" />;
         }
+        if (todoList) {
+            return (
+                <div className="container white">
+                    <ListTrash deleteList={this.handleDeleteList}/>
+                    <Modal deleteList={this.handleDeleteList} todoList={this.props.todoList}/>
+                    <h5 className="grey-text text-darken-3">Todo List</h5>
+                    <div className="input-field">
+                        <label htmlFor="email">Name</label>
+                        <input className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="password">Owner</label>
+                        <input className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
+                    </div>
+                    <ItemsList todoList={todoList} />
+                </div>
+            )
+        } else {
+            return (
+                <div className="container">
+                    <strong>Loading List Data...</strong>
+                </div>
+                
+            )    
+        }
 
-        return (
-            <div className="container white">
-                <h5 className="grey-text text-darken-3">Todo List</h5>
-                <div className="input-field">
-                    <label htmlFor="email">Name</label>
-                    <input className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
-                </div>
-                <div className="input-field">
-                    <label htmlFor="password">Owner</label>
-                    <input className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
-                </div>
-                <ItemsList todoList={todoList} />
-            </div>
-        );
+        
     }
 }
 
@@ -66,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 //   const list = '';
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
-  todoList.id = id;
+//   todoList.id = id;
     console.log(state)
   return {
     todoList,
@@ -76,7 +96,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
     updateListName: (doc, newName) => dispatch(editListNameHandler(doc, newName)),
-    updateListOwner: (doc, newOwner) => dispatch(editListOwnerHandler(doc, newOwner))
+    updateListOwner: (doc, newOwner) => dispatch(editListOwnerHandler(doc, newOwner)),
+    deleteList: (doc) => dispatch(deleteListHandler(doc))
 })
 
 export default compose(
