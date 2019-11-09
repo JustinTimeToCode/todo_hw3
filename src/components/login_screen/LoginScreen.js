@@ -24,8 +24,8 @@ class LoginScreen extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // As we use react-redux-firebas-v3 we need to pass firebase object to
-    // authActions to be authorized by using firebse.auth method
+    // As we use react-redux-firebase-v3 we need to pass firebase object to
+    // authActions to be authorized by using firebase.auth method
     const { props, state } = this;
     const { firebase } = props;
     const credentials = { ...state };

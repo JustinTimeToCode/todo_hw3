@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux';
+import { firestoreConnect, firebaseConnect } from 'react-redux-firebase';
 
 export class ItemScreen extends Component {
     render() {
@@ -11,12 +13,21 @@ export class ItemScreen extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state,ownProps) => {
+    const { id } = ownProps.match.params;
+    const { todoLists } = state.firestore.data;
+    const { items } = todoLists
     
-})
+}
 
 const mapDispatchToProps = {
     
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemScreen)
+export default compose(
+    connect(mapStateToProps,
+        mapDispatchToProps),
+        firestoreConnect([
+            { collection: 'todoLists' }
+        ])(ItemScreen)
+)

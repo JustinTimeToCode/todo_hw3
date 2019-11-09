@@ -12,7 +12,10 @@ class HomeScreen extends Component {
 
         let doc = this.props.createNewList();
         console.log(doc);
-        return <Redirect to={`/todoList/${doc.id}`}/>
+        if(doc){
+            return <Redirect to={`/todoList/${doc.id}`}/>
+        }
+        
     }
 
     render() {

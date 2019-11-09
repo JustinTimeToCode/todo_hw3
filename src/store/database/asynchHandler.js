@@ -1,5 +1,4 @@
 import * as actionCreators from '../actions/actionCreators.js'
-import { Redirect } from 'react-router-dom'
 
 export const loginHandler = ({ credentials, firebase }) => (dispatch, getState) => {
     firebase.auth().signInWithEmailAndPassword(
@@ -44,9 +43,33 @@ export const newListHandler = (firebase) => (dispatch, getState, {getFirestore})
     items: []
   }).then((doc)=>{
     dispatch(actionCreators.createTodoListSuccess)
+    console.log(doc);
+    console.log(getState());
     return doc;
   }).catch((err) =>{
     dispatch(actionCreators.createTodoListError)
   });
 
+}
+
+export const editListNameHandler = (doc, newName) => (dispatch, getState, {getFirestore}) =>{
+  const firestore = getFirestore();
+  console.log(doc.id);
+  firestore.collection('todoLists').doc(doc.id).update({
+    name: newName
+  }).then((doc) =>{
+    console.log(doc)
+    dispatch(actionCreators.updateListNameSuccess)
+  }).catch(err =>{
+    dispatch(actionCreators.updateListNameError, err)
+  })
+
+}
+
+export const editListOwnerHandler = (doc, newOwner) => (dispatch, getState, {getFirestore}) =>{
+  const firestore = getFirestore();
+  console.log(doc);
+  firestore.collection('todoLists').doc(doc.id).update({
+    owner: newOwner
+  })
 }
