@@ -12,7 +12,8 @@ class ItemsList extends React.Component {
         console.log("ItemsList: todoList.id " + todoList.id);
         return (
             <div className="todo-lists section">
-                {items && items.map(function(item) {
+              
+            {items && items.map(function(item) {
                     item.id = item.key;
                     return (
                         <Link to={`${todoList.id}/item/${item.id}`}>
@@ -27,9 +28,13 @@ class ItemsList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const todoList = ownProps.todoList;
+    const { items } = todoList; 
     console.log(todoList);
+    console.log(state);
+    console.log(ownProps);
     return {
         todoList,
+        items,
         auth: state.firebase.auth,
     };
 };

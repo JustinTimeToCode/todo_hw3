@@ -43,13 +43,14 @@ class ListScreen extends Component {
     handleDeleteList = (e) => {
         this.props.deleteList(this.props.todoList);
         return <Redirect to="/"/>
+        
     }
 
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
         if (!auth.uid) {
-            return <Redirect to="/" />;
+            return <Redirect to="/login" />;
         }
         if (todoList) {
             return (
@@ -70,10 +71,10 @@ class ListScreen extends Component {
             )
         } else {
             return (
-                <div className="container">
-                    <strong>Loading List Data...</strong>
-                </div>
-                
+                // <div className="container">
+                //     <strong>Loading List Data...</strong>
+                // </div>
+                <span>Loading List...</span>
             )    
         }
 

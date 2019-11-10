@@ -17,6 +17,8 @@ export const UPDATE_LIST_NAME_SUCCESS = 'UPDATE_LIST_NAME_SUCCESS';
 export const UPDATE_LIST_NAME_ERROR = 'UPDATE_LIST_NAME_ERROR';
 export const UPDATE_LIST_OWNER_SUCCESS = 'UPDATE_LIST_OWNER_SUCCESS';
 export const UPDATE_LIST_OWNER_ERROR = 'UPDATE_LIST_OWNER_ERROR';
+export const DELETE_LIST_SUCCESS = 'DELETE_LIST_SUCCESS';
+export const DELETE_LIST_ERROR = 'DELETE_LIST_ERROR';
 // THESE CREATORS MAKE ACTIONS ASSOCIATED WITH USER ACCOUNTS
 
 export function registerSuccess() {
@@ -80,6 +82,18 @@ export function updateListOwnerSuccess(todoList){
 export function updateListOwnerError(error){
     return{
         type: 'UPDATE_LIST_OWNER_ERROR',
+        error
+    }
+}
+export function deleteListSuccess(todoList){
+    return{
+        type: 'DELETE_LIST_SUCCESS',
+        todoList
+    }
+}
+export function deleteListError(error){
+    return{
+        type: 'DELETE_LIST_ERROR',
         error
     }
 }

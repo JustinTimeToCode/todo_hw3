@@ -59,9 +59,9 @@ export const editListNameHandler = (doc, newName) => (dispatch, getState, { getF
     name: newName
   }).then((doc) =>{
     console.log(doc)
-    dispatch(actionCreators.updateListNameSuccess)
+    dispatch(actionCreators.updateListNameSuccess(doc))
   }).catch(err =>{
-    dispatch(actionCreators.updateListNameError, err)
+    dispatch(actionCreators.updateListNameError(err))
   })
 
 }
@@ -73,10 +73,10 @@ export const editListOwnerHandler = (doc, newOwner) => (dispatch, getState, { ge
     owner: newOwner
   }).then(res =>{
     console.log(res);
-    dispatch(actionCreators.updateListOwnerSuccess);
+    dispatch(actionCreators.updateListOwnerSuccess(res));
   }).catch(err =>{
     console.log(err);
-    dispatch(actionCreators.updateListOwnerError, err);
+    dispatch(actionCreators.updateListOwnerError(err));
   })
 }
 
@@ -88,8 +88,10 @@ export const deleteListHandler = (doc) => (dispatch, getState, { getFirestore })
   .delete()
   .then(res =>{
     console.log(res)
+    dispatch(actionCreators.deleteListSuccess(res))
   })
   .catch(err =>{
     console.log(err)
+    dispatch(actionCreators.deleteListError(err))
   })
 }

@@ -5,7 +5,7 @@ export class ListTrash extends Component {
     render() {
         return (
             <div onClick={this.props.deleteList} id="list_trash">
-                    <a data-target="modal" className="waves-effect waves-light btn modal-trigger" href="#modal">
+                    <a data-target="modal" className="waves-effect waves-light btn modal-trigger" href="#!">
                         <i className="large material-icons">delete</i>
                     </a>
             </div>
