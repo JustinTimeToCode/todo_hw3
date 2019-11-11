@@ -20,7 +20,10 @@ class ItemsList extends React.Component {
                             <ItemCard todoList={todoList} item={item} />
                         </Link>
                     );})
-                }
+            }
+            <div onClick = {this.props.goListItem} className = 'list_item_add_card'>
+                    <strong> + </strong>
+                </div>
             </div>
         );
     }

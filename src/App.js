@@ -29,7 +29,7 @@ class App extends Component {
               <Route exact path="/register" component={RegisterScreen} />
               <Route exact path="/login" component={LoginScreen} />
               <Route exact path="/todoList/:id" component={ListScreen} />
-              <Route exact path="/todoList/:id/item/:index" component={ItemScreen}/>
+              <Route exact path="/todoList/:id/item/:index?" component={ItemScreen}/>
             </Switch>
           </div>
         </BrowserRouter>

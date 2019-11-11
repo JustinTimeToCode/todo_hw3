@@ -8,11 +8,12 @@ import { newListHandler } from '../../store/database/asynchHandler';
 
 class HomeScreen extends Component {
 
-    handleNewList = () =>{
+     async handleNewList(){
 
-        let doc = this.props.createNewList();
+        let doc = await this.props.createNewList();
         console.log(doc);
         if(doc){
+            
             return <Redirect to={`/todoList/${doc.id}`}/>
         }
         
@@ -37,7 +38,7 @@ class HomeScreen extends Component {
                         </div>
                         
                         <div className="home_new_list_container">
-                                <button className="home_new_list_button" onClick={this.handleNewList}>
+                                <button className="home_new_list_button" onClick={this.handleNewList.bind(this)}>
                                     Create a New To Do List
                                 </button>
                         </div>
