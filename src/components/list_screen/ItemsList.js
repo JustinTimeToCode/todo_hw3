@@ -21,8 +21,10 @@ class ItemsList extends React.Component {
                         </Link>
                     );})
             }
-            <div onClick = {this.props.goListItem} className = 'list_item_add_card'>
-                    <strong> + </strong>
+                <div>
+                    <Link to = {`${todoList.id}/item/`} className = 'card z-depth-0 todo-list-link pink-lighten-3'>
+                        <h3 className="black-text center-align"> <strong> + </strong></h3>
+                    </Link>
                 </div>
             </div>
         );

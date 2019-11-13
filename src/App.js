@@ -26,8 +26,8 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={HomeScreen} />
               <Route exact path="/databaseTester" component={DatabaseTester} />
-              <Route exact path="/register" component={RegisterScreen} />
-              <Route exact path="/login" component={LoginScreen} />
+              <Route path="/register" component={RegisterScreen} />
+              <Route path="/login" component={LoginScreen} />
               <Route exact path="/todoList/:id" component={ListScreen} />
               <Route exact path="/todoList/:id/item/:index?" component={ItemScreen}/>
             </Switch>

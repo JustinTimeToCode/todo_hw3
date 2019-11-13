@@ -7,6 +7,11 @@ import ListTrash from './ListTrash.js'
 import Modal from './Modal.js'
 import { firestoreConnect } from 'react-redux-firebase';
 import {editListNameHandler, editListOwnerHandler, deleteListHandler} from '../../store/database/asynchHandler'
+import ListHeader from './ListHeader'
+
+const ItemSortingCriteria = {
+
+}
 
 class ListScreen extends Component {
     
@@ -21,6 +26,7 @@ class ListScreen extends Component {
     state = {
         name: '',
         owner: '',
+        sortingCriteria: ''
     }
 
     handleChange = (e) => {
@@ -66,6 +72,7 @@ class ListScreen extends Component {
                         <label htmlFor="password">Owner</label>
                         <input className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
                     </div>
+                    <ListHeader/>
                     <ItemsList todoList={todoList} />
                 </div>
             )

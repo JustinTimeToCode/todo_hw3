@@ -95,3 +95,23 @@ export const deleteListHandler = (doc) => (dispatch, getState, { getFirestore })
     dispatch(actionCreators.deleteListError(err))
   })
 }
+export const editOrSubmitNewItemHandler = (doc, item/*, index*/) => (dispatch, getState, { getFirestore }) =>{
+  //doc == todoList
+  const firestore = getFirestore();
+  console.log(doc);
+  console.log(item);
+  // if (index) {
+  //   firestore
+  //   .collection('todoLists')
+  //   .doc(doc.id)
+  //   .update({
+  //     items: []
+  //   })
+
+  // } else {
+  //   firestore
+  //   .collection('todoLists')
+  //   .doc(doc.id)
+  // }
+  
+}

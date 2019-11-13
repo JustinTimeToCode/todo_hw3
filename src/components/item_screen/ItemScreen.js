@@ -3,21 +3,70 @@ import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { firestoreConnect, firebaseConnect } from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom'
+import { editOrSubmitNewItemHandler } from '../../store/database/asynchHandler'
 import moment from 'moment'
 
 export class ItemScreen extends Component {
+
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            listToEdit: this.props.todoList,
+            itemToEdit: this.props.todoItem
+        }
+    }
+
+    
+
+
     render() {
-        const {auth, todoItem} = this.props;
+        const { auth, todoItem } = this.props;
         if(!auth.uid){
             return <Redirect to="/login"/>
         }
         if (todoItem) {
+            console.log(this.props.todoList)
+            console.log(this.props.todoItem)
             return(
-                <div className="dashboard container">
+                <div className="container white">
                     <span>{todoItem.description}</span> <br/>
                     <span>{todoItem.assigned_to}</span><br/>
                     <span>{todoItem.due_date}</span><br/>
                     <span>{`${todoItem.completed}`}</span>
+
+                    <div className="row">
+                        <form className="col s12">
+                            <div className="row">
+                                <div className="input-field col s6">
+                                    <input placeholder="Placeholder" id="first_name" type="text" className="validate"/>
+                                    <label htmlFor="first_name">First Name</label>
+                                </div>
+                                <div className="input-field col s6">
+                                    <input id="last_name" type="text" className="validate"/>
+                                    <label htmlFor="last_name">Last Name</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="input-field col s12">
+                                    <input id="disabled" type="text" className="validate"/>
+                                    <label htmlFor="disabled">Disabled</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="input-field col s12">
+                                    <input id="password" type="password" className="validate"/>
+                                    <label htmlFor="password">Password</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="input-field col s12">
+                                    <input id="email" type="email" className="validate"/>
+                                    <label htmlFor="email">Email</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             )
         } else {
@@ -63,9 +112,9 @@ const mapStateToProps = (state, ownProps) => {
     
 }
 
-const mapDispatchToProps = {
-    
-}
+const mapDispatchToProps = (dispatch)=> ({
+    submitItem: (todoList, item) => dispatch(editOrSubmitNewItemHandler(todoList, item))
+})
 
 export default compose(
     connect(mapStateToProps,
