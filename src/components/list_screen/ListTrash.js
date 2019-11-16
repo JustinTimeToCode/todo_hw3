@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+const M = window.M;
 export class ListTrash extends Component {
+
+    componentDidMount(){
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems, {
+            
+        });
+    }
+
+
     render() {
         return (
-            <div onClick={this.props.deleteList} id="list_trash">
-                    <a data-target="modal" className="waves-effect waves-light btn modal-trigger" href="#!">
+            <div id="list_trash">
+                    <button data-target="modal1" className="waves-effect waves-light btn modal-trigger">
                         <i className="large material-icons">delete</i>
-                    </a>
+                    </button>
             </div>
         )
     }

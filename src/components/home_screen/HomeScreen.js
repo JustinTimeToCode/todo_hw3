@@ -8,13 +8,14 @@ import { newListHandler } from '../../store/database/asynchHandler';
 
 class HomeScreen extends Component {
 
-     async handleNewList(){
+     handleNewList(){
 
-        let doc = await this.props.createNewList();
+        let doc = this.props.createNewList();
         console.log(doc);
         if(doc){
             
-            return <Redirect to={`/todoList/${doc.id}`}/>
+            // return <Redirect to={`/todoList/${doc.id}`}/>
+            this.props.history.push(`/todoList/${doc.id}`)
         }
         
     }

@@ -1,24 +1,54 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
-import { firestoreConnect, firebaseConnect } from 'react-redux-firebase';
+import { firestoreConnect} from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom'
 import { editOrSubmitNewItemHandler } from '../../store/database/asynchHandler'
 import moment from 'moment'
+const M = window.M;
 
 export class ItemScreen extends Component {
 
     constructor(props) {
         super(props);
-    
+
         this.state = {
-            listToEdit: this.props.todoList,
-            itemToEdit: this.props.todoItem
+            listToEdit: props.todoList,
+            itemToEdit: props.todoItem
+        }
+
+        this.descriptionInput = React.createRef();
+        this.assignedToInput = React.createRef();
+        this.dueDatePicker = React.createRef();
+        this.completedCheckbox = React.createRef();
+    }
+
+    componentDidMount(){
+        M.updateTextFields();
+        if(this.props.todoItem){
+            let description = this.descriptionInput.current;
+            let assignedTo = this.assignedToInput.current;
+            let dueDate = this.dueDatePicker.current;
+            let completedCheckbox = this.completedCheckbox.current;
+
+            description.value = this.props.todoItem.description;
+            assignedTo.value = this.props.todoItem.assigned_to;
+            dueDate.value = this.props.todoItem.due_date;
+            completedCheckbox.checked = this.props.todoItem.completed;
         }
     }
 
-    
+    handleSubmitItem = (e) => {
+        e.preventDefault();
+        
 
+    }
+
+    handleCancelItem = (e) => {
+        e.preventDefault();
+
+        this.props.history.goBack();
+    }
 
     render() {
         const { auth, todoItem } = this.props;
@@ -28,43 +58,47 @@ export class ItemScreen extends Component {
         if (todoItem) {
             console.log(this.props.todoList)
             console.log(this.props.todoItem)
+
             return(
                 <div className="container white">
-                    <span>{todoItem.description}</span> <br/>
-                    <span>{todoItem.assigned_to}</span><br/>
-                    <span>{todoItem.due_date}</span><br/>
-                    <span>{`${todoItem.completed}`}</span>
 
                     <div className="row">
                         <form className="col s12">
                             <div className="row">
-                                <div className="input-field col s6">
-                                    <input placeholder="Placeholder" id="first_name" type="text" className="validate"/>
-                                    <label htmlFor="first_name">First Name</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <input id="last_name" type="text" className="validate"/>
-                                    <label htmlFor="last_name">Last Name</label>
+                                <div className="input-field col s8">
+                                    <input ref={this.descriptionInput} id="description" type="text" className="validate"/>
+                                    <label htmlFor="description">Description</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col s12">
-                                    <input id="disabled" type="text" className="validate"/>
-                                    <label htmlFor="disabled">Disabled</label>
+                                <div className="input-field col s8">
+                                    <input ref={this.assignedToInput} id="assigned_to" type="text" className="validate"/>
+                                    <label htmlFor="assigned_to">Assigned To</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col s12">
-                                    <input id="password" type="password" className="validate"/>
-                                    <label htmlFor="password">Password</label>
+                                <div className="input-field col s8">
+                                    <input ref={this.dueDatePicker} id="due_date" type="date" className="datepicker"/>
+                                    <label htmlFor="due_date">Due Date</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col s12">
-                                    <input id="email" type="email" className="validate"/>
-                                    <label htmlFor="email">Email</label>
+                                <div className="input-field col s8">
+                                    <p>
+                                        <label>
+                                            <input ref={this.completedCheckbox} id="completed" type="checkbox"/>
+                                            <span>Completed</span>
+                                        </label>
+                                    </p>
                                 </div>
                             </div>
+                            <button class="btn waves-effect waves-light" type="submit" onClick={this.handleSubmitItem}>
+                                Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                            <button class="btn waves-effect waves-light" onClick={this.handleCancelItem}>
+                                Cancel
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -87,8 +121,8 @@ const mapStateToProps = (state, ownProps) => {
     let itemIndex; 
     let todoItem;
     let newItem = {
-        description: 'New List Item',
-        assigned_to: 'Non-binary Doe',
+        description: '',
+        assigned_to: '',
         due_date: moment(new Date().getDate()).calendar(),
         completed: false
 
