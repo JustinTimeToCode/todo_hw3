@@ -45,7 +45,7 @@ export class ItemScreen extends Component {
         console.log(this.props.todoItem);
         let itemToEdit;
         
-        if(this.props.match.params.index !== null){
+        if(this.props.match.params.index){
             
            itemToEdit = {
                 key: this.props.match.params.index,
@@ -160,10 +160,8 @@ const mapStateToProps = (state, ownProps) => {
       todoItem = index ? todoList.items[itemIndex] : null;
 
     }
-    
-    console.log(todoItem);
-    console.log(state);
-    console.log(ownProps);
+
+    console.log(index);
 
     return {
         todoList,
