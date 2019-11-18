@@ -9,7 +9,6 @@ import { firestoreConnect } from 'react-redux-firebase';
 import {editListNameHandler, editListOwnerHandler, deleteListHandler} from '../../store/database/asynchHandler'
 import ListHeader from './ListHeader'
 
-const M = window.M;
 const ItemSortingCriteria = {
 
 }
@@ -23,19 +22,15 @@ class ListScreen extends Component {
         this.listOwnerRef = React.createRef();
         // this.modalRef = React.createRef();
         this.state = {
-            listToEdit: this.props.todoList,
-            name: '',
-            owner: '',
+            listToEdit: this.props.todoList ? this.props.todoList : {
+                name: '',
+                owner: '',
+                items: []
+            },
+            name: this.props.todoList ? this.props.todoList.name : '',
+            owner: this.props.todoList ? this.props.todoList.owner : '',
             sortingCriteria: ''
         }
-    }
-    
-    componentDidMount(){
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {
-            opacity: 1,
-
-        });
     }
 
     handleChange = (e) => {
@@ -69,48 +64,48 @@ class ListScreen extends Component {
         
     }
 
-    moveItemUp = (e, todoItem) =>{
-        e.stopPropagation();
-        let index = this.state.listToEdit.items.indexOf(todoItem);
-        let listToEdit = this.state.listToEdit;
-        let { items } = this.state.listToEdit
+    // moveItemUp = (e, todoItem) =>{
+    //     e.stopPropagation();
+    //     let index = this.state.listToEdit.items.indexOf(todoItem);
+    //     let listToEdit = this.state.listToEdit;
+    //     let { items } = this.state.listToEdit
         
-        if (index !== 0) {
-            [items[index], items[index - 1]] = 
-            [items[index - 1], items[index]];
+    //     if (index !== 0) {
+    //         [items[index], items[index - 1]] = 
+    //         [items[index - 1], items[index]];
             
-            this.setState({listToEdit}); 
-        }
+    //         this.setState({listToEdit}); 
+    //     }
 
-        // this.disableButtons();
-    }
+    //     // this.disableButtons();
+    // }
 
-    moveItemDown = (e, todoItem) =>{
-        e.stopPropagation();
-        let index = this.state.listToEdit.items.indexOf(todoItem);
-        let listToEdit = this.state.listToEdit;
+    // moveItemDown = (e, todoItem) =>{
+    //     e.stopPropagation();
+    //     let index = this.state.listToEdit.items.indexOf(todoItem);
+    //     let listToEdit = this.state.listToEdit;
 
-        if (index !== this.state.listToEdit.items.length - 1) {
-            // [listItems[index], listItems[index + 1]] = 
-            // [listItems[index + 1], listItems[index]]
+    //     if (index !== this.state.listToEdit.items.length - 1) {
+    //         // [listItems[index], listItems[index + 1]] = 
+    //         // [listItems[index + 1], listItems[index]]
 
-            this.setState({listToEdit});
-        }
+    //         this.setState({listToEdit});
+    //     }
 
-        // this.disableButtons();
+    //     // this.disableButtons();
         
-    }
+    // }
 
-    deleteItem = (e, todoItem) =>{
-        e.stopPropagation();
-        let listToEdit = this.state.listToEdit;
-        // let index = this.state.listItems.indexOf(todoItem);
-        // let listItems = this.state.listItems;
-        // listItems.splice(index, 1);
-        this.setState({listToEdit});
+    // deleteItem = (e, todoItem) =>{
+    //     e.stopPropagation();
+    //     let listToEdit = this.state.listToEdit;
+    //     // let index = this.state.listItems.indexOf(todoItem);
+    //     // let listItems = this.state.listItems;
+    //     // listItems.splice(index, 1);
+    //     this.setState({listToEdit});
 
-        // this.disableButtons();
-    }
+    //     // this.disableButtons();
+    // }
 
     render() {
         const auth = this.props.auth;
@@ -153,12 +148,15 @@ const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps.match.params;
   const { todoLists } = state.firestore.data;
   const todoList = todoLists ? todoLists[id] : null;
+  let items;
   if (todoList) {
-    todoList.id = id;    
+    todoList.id = id;
+    items = todoList.items;    
   }
   
   return {
     todoList,
+    items,
     auth: state.firebase.auth,
   };
 };

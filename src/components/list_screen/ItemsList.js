@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import ItemCard from './ItemCard';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom'
 
-class ItemsList extends React.Component {
+class ItemsList extends Component {
     render() {
         const todoList = this.props.todoList;
         const items = todoList.items;
@@ -15,9 +15,10 @@ class ItemsList extends React.Component {
               
             {items && items.map(function(item) {
                     item.id = item.key;
+                    console.log(`Item id: ${item.id}`);
                     return (
                         <Link to={`${todoList.id}/item/${item.id}`}>
-                            <ItemCard todoList={todoList} item={item} />
+                            <ItemCard todoList={todoList} item={item} todoItems={items} key={item.id}/>
                         </Link>
                     );})
             }
@@ -34,9 +35,7 @@ class ItemsList extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     const todoList = ownProps.todoList;
     const { items } = todoList; 
-    console.log(todoList);
-    console.log(state);
-    console.log(ownProps);
+    
     return {
         todoList,
         items,

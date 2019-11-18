@@ -95,23 +95,103 @@ export const deleteListHandler = (doc) => (dispatch, getState, { getFirestore })
     dispatch(actionCreators.deleteListError(err))
   })
 }
-export const editOrSubmitNewItemHandler = (doc, item/*, index*/) => (dispatch, getState, { getFirestore }) =>{
+
+export const submitNewItemHandler = (doc, item) => (dispatch, getState, { getFirestore }) =>{
   //doc == todoList
   const firestore = getFirestore();
   console.log(doc);
   console.log(item);
-  // if (index) {
-  //   firestore
-  //   .collection('todoLists')
-  //   .doc(doc.id)
-  //   .update({
-  //     items: []
-  //   })
-
-  // } else {
-  //   firestore
-  //   .collection('todoLists')
-  //   .doc(doc.id)
-  // }
+  let todoList = doc;
   
+  todoList.items.push(item);
+    firestore.collection('todoLists').doc(doc.id).update({
+      items: todoList.items
+    }).then(res => {
+      console.log(res)
+      dispatch(actionCreators.submitItemSuccess(res))
+    }).catch(err => {
+      console.log(err)
+      dispatch(actionCreators.submitItemError(err))
+    })
+  
+}
+
+export const editItemHandler = (doc, item) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  console.log(doc);
+  console.log(item);
+  let todoList = doc;
+  
+  todoList.items[item.key] = item;
+    firestore.collection('todoLists').doc(doc.id).update({
+      items: todoList.items
+    }).then(res => {
+      console.log(res)
+      dispatch(actionCreators.submitItemSuccess(res))
+    }).catch(err => {
+      console.log(err)
+      dispatch(actionCreators.submitItemError(err))
+    })
+}
+
+export const moveUpHandler = (todoList, todoItem) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  let { items } = todoList
+  let index = items.indexOf(todoItem);
+
+  if (index !== 0) {
+      [items[index], items[index - 1]] = 
+      [items[index - 1], items[index]];
+      
+      firestore.collection('todoLists').doc(todoList.id).update({
+        items
+      }).then(res => {
+        console.log(res);
+        dispatch(actionCreators.moveItemUpSuccess(res))
+      }).catch(err => {
+        console.log(err)
+        dispatch(actionCreators.moveItemUpError(err))
+      })
+  }
+}
+
+export const moveDownHandler = (todoList, todoItem) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  let { items } = todoList
+  let index = items.indexOf(todoItem);
+
+  if (index !== items.length - 1 ) {
+      [items[index], items[index + 1]] = 
+      [items[index + 1], items[index]];
+      
+      firestore.collection('todoLists').doc(todoList.id).update({
+        items
+      }).then(res => {
+        console.log(res);
+        dispatch(actionCreators.moveItemDownSuccess(res))
+      }).catch(err => {
+        console.log(err)
+        dispatch(actionCreators.moveItemDownError(err))
+      })
+  }
+
+  
+}
+
+export const deleteListItemHandler = (doc, item) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+
+  let todoList = doc;
+  let index = todoList.items.indexOf(item);
+  todoList.items.splice(index, 1);
+
+  firestore.collection('todoLists').doc(doc.id).update({
+    items: todoList.items
+  }).then(res => {
+    console.log(res);
+    dispatch(actionCreators.deleteItemSuccess(res));
+  }).catch(err => {
+    console.log(err)
+    dispatch(actionCreators.deleteItemError(err))
+  })
 }

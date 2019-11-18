@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { firestoreConnect} from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom'
-import { editOrSubmitNewItemHandler } from '../../store/database/asynchHandler'
+import { submitNewItemHandler, editItemHandler } from '../../store/database/asynchHandler'
 import moment from 'moment'
 const M = window.M;
 
@@ -31,17 +31,40 @@ export class ItemScreen extends Component {
             let dueDate = this.dueDatePicker.current;
             let completedCheckbox = this.completedCheckbox.current;
 
-            description.value = this.props.todoItem.description;
-            assignedTo.value = this.props.todoItem.assigned_to;
-            dueDate.value = this.props.todoItem.due_date;
-            completedCheckbox.checked = this.props.todoItem.completed;
+            description.value = this.props.todoItem ? this.props.todoItem.description : '';
+            assignedTo.value = this.props.todoItem ? this.props.todoItem.assigned_to : '';
+            dueDate.value = this.props.todoItem ? this.props.todoItem.due_date : '';
+            completedCheckbox.checked = this.props.todoItem ? this.props.todoItem.completed : false;
         }
     }
 
     handleSubmitItem = (e) => {
         e.preventDefault();
-        
 
+        console.log(this.props.todoList);
+        console.log(this.props.todoItem);
+        let itemToEdit;
+        
+        if(this.props.todoItem !== null){
+           itemToEdit = {
+                description: this.descriptionInput.current.value,
+                due_date: this.dueDatePicker.current.value,
+                assigned_to: this.assignedToInput.current.value,
+                completed: this.completedCheckbox.current.value
+           }
+           this.props.editItem(this.props.todoList, itemToEdit);
+        } else {
+            itemToEdit = {
+                key: this.props.todoList.items.length,       
+                description: this.descriptionInput.current.value,
+                due_date: this.dueDatePicker.current.value,
+                assigned_to: this.assignedToInput.current.value,
+                completed: this.completedCheckbox.current.checked
+            }
+            this.props.submitItem(this.props.todoList, itemToEdit);
+        }
+        
+        this.props.history.goBack();
     }
 
     handleCancelItem = (e) => {
@@ -55,9 +78,9 @@ export class ItemScreen extends Component {
         if(!auth.uid){
             return <Redirect to="/login"/>
         }
-        if (todoItem) {
-            console.log(this.props.todoList)
-            console.log(this.props.todoItem)
+        // if (todoItem) {
+        //     console.log(this.props.todoList)
+        //     console.log(this.props.todoItem)
 
             return(
                 <div className="container white">
@@ -85,29 +108,31 @@ export class ItemScreen extends Component {
                             <div className="row">
                                 <div className="input-field col s8">
                                     <p>
-                                        <label>
+                                        <label htmlFor="completed">
                                             <input ref={this.completedCheckbox} id="completed" type="checkbox"/>
                                             <span>Completed</span>
                                         </label>
                                     </p>
                                 </div>
                             </div>
-                            <button class="btn waves-effect waves-light" type="submit" onClick={this.handleSubmitItem}>
-                                Submit
-                                <i class="material-icons right">send</i>
-                            </button>
-                            <button class="btn waves-effect waves-light" onClick={this.handleCancelItem}>
-                                Cancel
-                            </button>
+                            <div className="right">
+                                <button class="btn waves-effect waves-light" type="submit" onClick={this.handleSubmitItem}>
+                                    Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                                <button class="btn waves-effect waves-light" onClick={this.handleCancelItem}>
+                                    Cancel
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
             )
-        } else {
-            return (
-                <span> Loading Item... </span>
-            )
-        }
+        // } else {
+        //     return (
+        //         <span> Loading Item... </span>
+        //     )
+        // }
 
         
     }
@@ -120,20 +145,21 @@ const mapStateToProps = (state, ownProps) => {
     const todoList = todoLists ? todoLists[id] : null;
     let itemIndex; 
     let todoItem;
-    let newItem = {
-        description: '',
-        assigned_to: '',
-        due_date: moment(new Date().getDate()).calendar(),
-        completed: false
+    // let newItem = {
+    //     description: '',
+    //     assigned_to: '',
+    //     due_date: moment(new Date().getDate()).calendar(),
+    //     completed: false
 
-    }
+    // }
     if (todoList) {
       todoList.id = id;
       itemIndex = index ? parseInt(index, 10) : todoList.items.length;
-      todoItem = index ? todoList.items[itemIndex] : newItem;    
+      todoItem = index ? todoList.items[itemIndex] : null;
+
     }
     
-    console.log(todoItem)
+    console.log(todoItem);
     console.log(state);
     console.log(ownProps);
 
@@ -147,7 +173,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch)=> ({
-    submitItem: (todoList, item) => dispatch(editOrSubmitNewItemHandler(todoList, item))
+    submitItem: (todoList, item) => dispatch(submitNewItemHandler(todoList, item)),
+    editItem: (todoList, item) => dispatch(editItemHandler(todoList, item))
 })
 
 export default compose(

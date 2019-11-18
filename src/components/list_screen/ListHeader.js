@@ -14,7 +14,7 @@ export class ListHeader extends Component {
                             <h5 className="left-align">Due Date</h5>
                         </div>
                         <div className="col s3">
-                            <h5 className="left-align">Completed</h5>
+                            <h5 className="left-align">Status</h5>
                         </div>
                         <div className="col s3">
                         
