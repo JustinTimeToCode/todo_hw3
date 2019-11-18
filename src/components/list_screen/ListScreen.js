@@ -64,49 +64,6 @@ class ListScreen extends Component {
         
     }
 
-    // moveItemUp = (e, todoItem) =>{
-    //     e.stopPropagation();
-    //     let index = this.state.listToEdit.items.indexOf(todoItem);
-    //     let listToEdit = this.state.listToEdit;
-    //     let { items } = this.state.listToEdit
-        
-    //     if (index !== 0) {
-    //         [items[index], items[index - 1]] = 
-    //         [items[index - 1], items[index]];
-            
-    //         this.setState({listToEdit}); 
-    //     }
-
-    //     // this.disableButtons();
-    // }
-
-    // moveItemDown = (e, todoItem) =>{
-    //     e.stopPropagation();
-    //     let index = this.state.listToEdit.items.indexOf(todoItem);
-    //     let listToEdit = this.state.listToEdit;
-
-    //     if (index !== this.state.listToEdit.items.length - 1) {
-    //         // [listItems[index], listItems[index + 1]] = 
-    //         // [listItems[index + 1], listItems[index]]
-
-    //         this.setState({listToEdit});
-    //     }
-
-    //     // this.disableButtons();
-        
-    // }
-
-    // deleteItem = (e, todoItem) =>{
-    //     e.stopPropagation();
-    //     let listToEdit = this.state.listToEdit;
-    //     // let index = this.state.listItems.indexOf(todoItem);
-    //     // let listItems = this.state.listItems;
-    //     // listItems.splice(index, 1);
-    //     this.setState({listToEdit});
-
-    //     // this.disableButtons();
-    // }
-
     render() {
         const auth = this.props.auth;
         const todoList = this.props.todoList;
