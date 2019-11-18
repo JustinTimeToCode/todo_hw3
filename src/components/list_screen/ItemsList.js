@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import ItemCard from './ItemCard';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom'
-
 class ItemsList extends Component {
+        
     render() {
         const todoList = this.props.todoList;
         const items = todoList.items;

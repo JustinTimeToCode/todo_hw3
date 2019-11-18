@@ -42,12 +42,12 @@ export const newListHandler = (firebase) => (dispatch, getState, { getFirestore 
     owner: 'Unknown',
     items: []
   }).then((doc)=>{
-    dispatch(actionCreators.createTodoListSuccess)
+    dispatch(actionCreators.createTodoListSuccess(doc))
     console.log(doc);
     console.log(getState());
     return doc;
   }).catch((err) =>{
-    dispatch(actionCreators.createTodoListError)
+    dispatch(actionCreators.createTodoListError(err))
   });
 
 }
@@ -57,9 +57,9 @@ export const editListNameHandler = (doc, newName) => (dispatch, getState, { getF
   console.log(doc.id);
   firestore.collection('todoLists').doc(doc.id).update({
     name: newName
-  }).then((doc) =>{
-    console.log(doc)
-    dispatch(actionCreators.updateListNameSuccess(doc))
+  }).then((res) =>{
+    console.log(res)
+    dispatch(actionCreators.updateListNameSuccess(res))
   }).catch(err =>{
     dispatch(actionCreators.updateListNameError(err))
   })
@@ -173,9 +173,7 @@ export const moveDownHandler = (todoList, todoItem) => (dispatch, getState, { ge
         console.log(err)
         dispatch(actionCreators.moveItemDownError(err))
       })
-  }
-
-  
+  } 
 }
 
 export const deleteListItemHandler = (doc, item) => (dispatch, getState, { getFirestore }) => {
@@ -194,4 +192,19 @@ export const deleteListItemHandler = (doc, item) => (dispatch, getState, { getFi
     console.log(err)
     dispatch(actionCreators.deleteItemError(err))
   })
+}
+
+export const sortingHandler = (todoList, items) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+
+  firestore.collection('todoLists').doc(todoList.id).update({
+    items
+  }).then(res => {
+    console.log(res);
+    dispatch(actionCreators.sortItemsSuccess(res));
+  }).catch(err => {
+    console.log(err);
+    dispatch(actionCreators.sortItemsError(err));
+  })
+  
 }

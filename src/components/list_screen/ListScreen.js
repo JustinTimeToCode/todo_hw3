@@ -127,7 +127,7 @@ class ListScreen extends Component {
                         <label htmlFor="password">Owner</label>
                         <input className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
                     </div>
-                    <ListHeader/>
+                    <ListHeader todoList={this.props.todoList}/>
                     <ItemsList todoList={todoList} />
                 </div>
             )

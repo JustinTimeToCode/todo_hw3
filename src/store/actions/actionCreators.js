@@ -28,7 +28,9 @@ export const MOVE_ITEM_UP_ERROR = 'MOVE_ITEM_UP_ERROR'
 export const MOVE_ITEM_DOWN_SUCCESS = 'MOVE_ITEM_DOWN_SUCCESS'
 export const MOVE_ITEM_DOWN_ERROR = 'MOVE_ITEM_DOWN_ERROR'
 export const DELETE_ITEM_SUCCESS = 'DELETE_ITEM_SUCCESS';
-export const DELETE_ITEM_ERROR = 'DELETE_ITEM_ERROR'; 
+export const DELETE_ITEM_ERROR = 'DELETE_ITEM_ERROR';
+export const SORT_ITEMS_SUCCESS = 'SORT_ITEMS_SUCCESS';
+export const SORT_ITEMS_ERROR = 'SORT_ITEMS_ERROR'; 
 // THESE CREATORS MAKE ACTIONS ASSOCIATED WITH USER ACCOUNTS
 
 export function registerSuccess() {
@@ -164,6 +166,18 @@ export function deleteItemSuccess(todoList){
 export function deleteItemError(error){
     return{
         type: 'DELETE_ITEM_ERROR',
+        error
+    }
+}
+export function sortItemsSuccess(todoList){
+    return{
+        type: 'SORT_ITEMS_SUCCESS',
+        todoList
+    }
+}
+export function sortItemsError(error){
+    return{
+        type: 'SORT_ITEMS_ERROR',
         error
     }
 }
