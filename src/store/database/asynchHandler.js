@@ -206,6 +206,5 @@ export const sortingHandler = (todoList, items) => (dispatch, getState, { getFir
   }).catch(err => {
     console.log(err);
     dispatch(actionCreators.sortItemsError(err));
-  })
-  
+  }) 
 }

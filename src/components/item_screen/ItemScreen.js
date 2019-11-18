@@ -25,17 +25,17 @@ export class ItemScreen extends Component {
 
     componentDidMount(){
         M.updateTextFields();
-        if(this.props.todoItem){
-            let description = this.descriptionInput.current;
-            let assignedTo = this.assignedToInput.current;
-            let dueDate = this.dueDatePicker.current;
-            let completedCheckbox = this.completedCheckbox.current;
+        // if(this.props.match.params.index && this.props.todoItem){
+        //     let description = this.descriptionInput.current;
+        //     let assignedTo = this.assignedToInput.current;
+        //     let dueDate = this.dueDatePicker.current;
+        //     let completedCheckbox = this.completedCheckbox.current;
 
-            description.value = this.props.todoItem ? this.props.todoItem.description : '';
-            assignedTo.value = this.props.todoItem ? this.props.todoItem.assigned_to : '';
-            dueDate.value = this.props.todoItem ? this.props.todoItem.due_date : '';
-            completedCheckbox.checked = this.props.todoItem ? this.props.todoItem.completed : false;
-        }
+        //     description.value = this.props.todoItem.description;
+        //     assignedTo.value = this.props.todoItem.assigned_to;
+        //     dueDate.value = this.props.todoItem.due_date;
+        //     completedCheckbox.checked = this.props.todoItem.completed;
+        // }
     }
 
     handleSubmitItem = (e) => {
@@ -80,9 +80,9 @@ export class ItemScreen extends Component {
         if(!auth.uid){
             return <Redirect to="/login"/>
         }
-        // if (todoItem) {
-        //     console.log(this.props.todoList)
-        //     console.log(this.props.todoItem)
+        if (todoItem) {
+            console.log(this.props.todoList)
+            console.log(this.props.todoItem)
 
             return(
                 <div className="container white">
@@ -91,19 +91,19 @@ export class ItemScreen extends Component {
                         <form className="col s12">
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input ref={this.descriptionInput} id="description" type="text" className="validate"/>
+                                    <input value={todoItem.description} ref={this.descriptionInput} id="description" type="text" className="validate"/>
                                     <label htmlFor="description">Description</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input ref={this.assignedToInput} id="assigned_to" type="text" className="validate"/>
+                                    <input value={todoItem.assigned_to} ref={this.assignedToInput} id="assigned_to" type="text" className="validate"/>
                                     <label htmlFor="assigned_to">Assigned To</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input ref={this.dueDatePicker} id="due_date" type="date" className="datepicker"/>
+                                    <input value={todoItem.due_date} ref={this.dueDatePicker} id="due_date" type="date" className="datepicker"/>
                                     <label htmlFor="due_date">Due Date</label>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@ export class ItemScreen extends Component {
                                 <div className="input-field col s8">
                                     <p>
                                         <label htmlFor="completed">
-                                            <input ref={this.completedCheckbox} id="completed" type="checkbox"/>
+                                            <input checked={todoItem.completed} ref={this.completedCheckbox} id="completed" type="checkbox"/>
                                             <span>Completed</span>
                                         </label>
                                     </p>
@@ -130,11 +130,11 @@ export class ItemScreen extends Component {
                     </div>
                 </div>
             )
-        // } else {
-        //     return (
-        //         <span> Loading Item... </span>
-        //     )
-        // }
+        } else {
+            return (
+                <span> Loading Item... </span>
+            )
+        }
 
         
     }
