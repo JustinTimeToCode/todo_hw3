@@ -45,12 +45,14 @@ export class ItemScreen extends Component {
         console.log(this.props.todoItem);
         let itemToEdit;
         
-        if(this.props.todoItem !== null){
+        if(this.props.match.params.index !== null){
+            
            itemToEdit = {
+                key: this.props.match.params.index,
                 description: this.descriptionInput.current.value,
                 due_date: this.dueDatePicker.current.value,
                 assigned_to: this.assignedToInput.current.value,
-                completed: this.completedCheckbox.current.value
+                completed: this.completedCheckbox.current.checked
            }
            this.props.editItem(this.props.todoList, itemToEdit);
         } else {

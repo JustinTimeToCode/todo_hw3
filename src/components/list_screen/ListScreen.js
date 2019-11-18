@@ -120,7 +120,7 @@ class ListScreen extends Component {
                     <Modal deleteList={this.handleDeleteList} todoList={this.props.todoList}/>
                     <h5 className="grey-text text-darken-3">Todo List</h5>
                     <div className="input-field">
-                        <label htmlFor="email">Name</label>
+                        <label htmlFor="name">Name</label>
                         <input className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
                     </div>
                     <div className="input-field">

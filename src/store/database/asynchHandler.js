@@ -122,6 +122,7 @@ export const editItemHandler = (doc, item) => (dispatch, getState, { getFirestor
   console.log(item);
   let todoList = doc;
   
+  
   todoList.items[item.key] = item;
     firestore.collection('todoLists').doc(doc.id).update({
       items: todoList.items
