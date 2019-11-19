@@ -1,4 +1,5 @@
 import * as actionCreators from '../actions/actionCreators.js'
+import moment from 'moment';
 
 export const loginHandler = ({ credentials, firebase }) => (dispatch, getState) => {
     firebase.auth().signInWithEmailAndPassword(
@@ -40,7 +41,8 @@ export const newListHandler = (firebase) => (dispatch, getState, { getFirestore 
   firestore.collection('todoLists').add({
     name: 'New List',
     owner: 'Unknown',
-    items: []
+    items: [],
+    lastUpdated: moment().format('MMMM Do YYYY, h:mm:ss a')
   }).then((doc)=>{
     dispatch(actionCreators.createTodoListSuccess(doc))
     console.log(doc);
@@ -121,9 +123,10 @@ export const editItemHandler = (doc, item) => (dispatch, getState, { getFirestor
   console.log(doc);
   console.log(item);
   let todoList = doc;
+
+  let index = todoList.items.findIndex(x => x.key === item.key);
   
-  
-  todoList.items[item.key] = item;
+  todoList.items[index] = item;
     firestore.collection('todoLists').doc(doc.id).update({
       items: todoList.items
     }).then(res => {
@@ -207,4 +210,16 @@ export const sortingHandler = (todoList, items) => (dispatch, getState, { getFir
     console.log(err);
     dispatch(actionCreators.sortItemsError(err));
   }) 
+}
+
+export const updateTimestampHandler = (todoList) => (dispatch, getState, { getFirestore }) => {
+  const firestore = getFirestore();
+  console.log(todoList)
+  firestore.collection('todoLists').doc(todoList.id).update({
+    lastUpdated: moment().format('MMMM Do YYYY, h:mm:ss a')
+  }).then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
+  })
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import todoJson from './TestTodoListData.json'
 import { getFirestore } from 'redux-firestore';
-
+import moment from 'moment'
 class DatabaseTester extends React.Component {
 
     // NOTE, BY KEEPING THE DATABASE PUBLIC YOU CAN
@@ -24,7 +24,8 @@ class DatabaseTester extends React.Component {
             fireStore.collection('todoLists').add({
                     name: todoListJson.name,
                     owner: todoListJson.owner,
-                    items: todoListJson.items
+                    items: todoListJson.items,
+                    lastUpdated: moment().format('MMMM Do YYYY, h:mm:ss a')
                 }).then(() => {
                     console.log("DATABASE RESET");
                 }).catch((err) => {

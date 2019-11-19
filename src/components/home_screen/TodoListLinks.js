@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TodoListCard from './TodoListCard';
+
 
 class TodoListLinks extends React.Component {
     render() {
@@ -27,4 +29,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(connect(mapStateToProps))(TodoListLinks);
+export default connect(mapStateToProps)(TodoListLinks);

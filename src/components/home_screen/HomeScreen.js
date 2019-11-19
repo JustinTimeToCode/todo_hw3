@@ -8,12 +8,12 @@ import { newListHandler } from '../../store/database/asynchHandler';
 
 class HomeScreen extends Component {
 
-     handleNewList(){
+    handleNewList(){
 
         let doc = this.props.createNewList();
         console.log(doc);
         if(doc){
-            
+            console.log(doc)
             // return <Redirect to={`/todoList/${doc.id}`}/>
             this.props.history.push(`/todoList/${doc.id}`)
         }
@@ -65,6 +65,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+      { collection: 'todoLists', orderBy: ['lastUpdated', 'desc'] },
     ]),
 )(HomeScreen);

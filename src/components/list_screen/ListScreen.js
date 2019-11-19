@@ -6,12 +6,8 @@ import ItemsList from './ItemsList.js'
 import ListTrash from './ListTrash.js'
 import Modal from './Modal.js'
 import { firestoreConnect } from 'react-redux-firebase';
-import {editListNameHandler, editListOwnerHandler, deleteListHandler} from '../../store/database/asynchHandler'
+import {editListNameHandler, editListOwnerHandler, deleteListHandler , updateTimestampHandler} from '../../store/database/asynchHandler'
 import ListHeader from './ListHeader'
-
-const ItemSortingCriteria = {
-
-}
 
 class ListScreen extends Component {
     
@@ -22,14 +18,20 @@ class ListScreen extends Component {
         this.listOwnerRef = React.createRef();
         // this.modalRef = React.createRef();
         this.state = {
-            listToEdit: this.props.todoList ? this.props.todoList : {
-                name: '',
-                owner: '',
-                items: []
-            },
-            name: this.props.todoList ? this.props.todoList.name : '',
-            owner: this.props.todoList ? this.props.todoList.owner : '',
-            sortingCriteria: ''
+            name: '',
+            owner: ''
+        }
+    }
+
+    componentDidMount(){
+        if(this.props.todoList){
+            this.props.updateTimestamp(this.props.todoList)
+        }
+    }
+    
+    componentDidUpdate(){
+        if(this.props.todoList){
+            this.props.updateTimestamp(this.props.todoList)
         }
     }
 
@@ -78,11 +80,11 @@ class ListScreen extends Component {
                     <h5 className="grey-text text-darken-3">Todo List</h5>
                     <div className="input-field">
                         <label htmlFor="name">Name</label>
-                        <input className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
+                        <input value={todoList.name} className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Owner</label>
-                        <input className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
+                        <input value={todoList.owner} className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
                     </div>
                     <ListHeader todoList={this.props.todoList}/>
                     <ItemsList todoList={todoList} />
@@ -121,7 +123,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
     updateListName: (doc, newName) => dispatch(editListNameHandler(doc, newName)),
     updateListOwner: (doc, newOwner) => dispatch(editListOwnerHandler(doc, newOwner)),
-    deleteList: (doc) => dispatch(deleteListHandler(doc))
+    deleteList: (doc) => dispatch(deleteListHandler(doc)),
+    updateTimestamp: (todoList) => (dispatch(updateTimestampHandler(todoList)))
 })
 
 export default compose(

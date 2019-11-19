@@ -17,7 +17,7 @@ class ItemsList extends Component {
                     item.id = item.key;
                     console.log(`Item id: ${item.id}`);
                     return (
-                        <Link to={`${todoList.id}/item/${item.id}`}>
+                        <Link to={`${todoList.id}/item/${item.key}`}>
                             <ItemCard todoList={todoList} item={item} todoItems={items} key={item.id}/>
                         </Link>
                     );})

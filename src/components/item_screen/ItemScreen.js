@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { firestoreConnect} from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom'
 import { submitNewItemHandler, editItemHandler } from '../../store/database/asynchHandler'
-import moment from 'moment'
 const M = window.M;
 
 export class ItemScreen extends Component {
@@ -13,8 +12,12 @@ export class ItemScreen extends Component {
         super(props);
 
         this.state = {
-            listToEdit: props.todoList,
-            itemToEdit: props.todoItem
+            // listToEdit: props.todoList,
+            // itemToEdit: props.todoItem
+            description: this.props.todoList ? this.props.todoList.description : '',
+            assigned_to: this.props.todoList ? this.props.todoList.assigned_to : '',
+            due_date:  this.props.todoList ? this.props.todoList.due_date : '',
+            completed:  this.props.todoList ? this.props.todoList.completed : false
         }
 
         this.descriptionInput = React.createRef();
@@ -23,19 +26,55 @@ export class ItemScreen extends Component {
         this.completedCheckbox = React.createRef();
     }
 
+    handleChange = (e) => {
+        
+        if(e.target.id === "completed"){
+            this.setState({
+                completed: e.target.checked
+            })
+        } else {
+            this.setState({
+                [e.target.id]: e.target.value
+            })
+        }
+    }
+
     componentDidMount(){
         M.updateTextFields();
-        // if(this.props.match.params.index && this.props.todoItem){
-        //     let description = this.descriptionInput.current;
-        //     let assignedTo = this.assignedToInput.current;
-        //     let dueDate = this.dueDatePicker.current;
-        //     let completedCheckbox = this.completedCheckbox.current;
+        if(this.props.match.params.index && this.props.todoItem){
+            let description = this.descriptionInput.current;
+            let assignedTo = this.assignedToInput.current;
+            let dueDate = this.dueDatePicker.current;
+            let completedCheckbox = this.completedCheckbox.current;
 
-        //     description.value = this.props.todoItem.description;
-        //     assignedTo.value = this.props.todoItem.assigned_to;
-        //     dueDate.value = this.props.todoItem.due_date;
-        //     completedCheckbox.checked = this.props.todoItem.completed;
-        // }
+            description.value = this.props.todoItem.description;
+            assignedTo.value = this.props.todoItem.assigned_to;
+            dueDate.value = this.props.todoItem.due_date;
+            completedCheckbox.checked = this.props.todoItem.completed;
+
+            this.setState({
+                description: this.props.todoItem.description,
+                assigned_to: this.props.todoItem.assigned_to,
+                due_date: this.props.todoItem.due_date,
+                completed: this.props.todoItem.completed
+            })
+        }
+    }
+
+    componentDidUpdate(){
+        M.updateTextFields();
+        if(this.props.match.params.index && this.props.todoItem){
+            let description = this.descriptionInput.current;
+            let assignedTo = this.assignedToInput.current;
+            let dueDate = this.dueDatePicker.current;
+            let completedCheckbox = this.completedCheckbox.current;
+
+            description.value = this.state.description;
+            assignedTo.value = this.state.assigned_to;
+            dueDate.value = this.state.due_date;
+            completedCheckbox.checked = this.state.completed;
+
+        }
     }
 
     handleSubmitItem = (e) => {
@@ -48,7 +87,7 @@ export class ItemScreen extends Component {
         if(this.props.match.params.index){
             
            itemToEdit = {
-                key: this.props.match.params.index,
+                key: this.props.todoItem.key,
                 description: this.descriptionInput.current.value,
                 due_date: this.dueDatePicker.current.value,
                 assigned_to: this.assignedToInput.current.value,
@@ -57,7 +96,7 @@ export class ItemScreen extends Component {
            this.props.editItem(this.props.todoList, itemToEdit);
         } else {
             itemToEdit = {
-                key: this.props.todoList.items.length,       
+                key: Math.floor((Math.random() * 999999999) + this.props.todoList.items.length),
                 description: this.descriptionInput.current.value,
                 due_date: this.dueDatePicker.current.value,
                 assigned_to: this.assignedToInput.current.value,
@@ -77,10 +116,11 @@ export class ItemScreen extends Component {
 
     render() {
         const { auth, todoItem } = this.props;
+        const { index } = this.props.match.params
         if(!auth.uid){
             return <Redirect to="/login"/>
         }
-        if (todoItem) {
+        if (todoItem || !index) {
             console.log(this.props.todoList)
             console.log(this.props.todoItem)
 
@@ -91,19 +131,19 @@ export class ItemScreen extends Component {
                         <form className="col s12">
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input value={todoItem.description} ref={this.descriptionInput} id="description" type="text" className="validate"/>
-                                    <label htmlFor="description">Description</label>
+                                    <input onChange={this.handleChange} value={this.state.description} ref={this.descriptionInput} id="description" type="text" className="validate valid"/>
+                                    <label className="active" htmlFor="description">Description</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input value={todoItem.assigned_to} ref={this.assignedToInput} id="assigned_to" type="text" className="validate"/>
-                                    <label htmlFor="assigned_to">Assigned To</label>
+                                    <input onChange={this.handleChange} value={this.state.assigned_to} ref={this.assignedToInput} id="assigned_to" type="text" className="validate valid"/>
+                                    <label className="active" htmlFor="assigned_to">Assigned To</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8">
-                                    <input value={todoItem.due_date} ref={this.dueDatePicker} id="due_date" type="date" className="datepicker"/>
+                                    <input onChange={this.handleChange} value={this.state.due_date} ref={this.dueDatePicker} id="due_date" type="date" className="datepicker"/>
                                     <label htmlFor="due_date">Due Date</label>
                                 </div>
                             </div>
@@ -111,7 +151,7 @@ export class ItemScreen extends Component {
                                 <div className="input-field col s8">
                                     <p>
                                         <label htmlFor="completed">
-                                            <input checked={todoItem.completed} ref={this.completedCheckbox} id="completed" type="checkbox"/>
+                                            <input ref={this.completedCheckbox} id="completed" type="checkbox"/>
                                             <span>Completed</span>
                                         </label>
                                     </p>
@@ -157,7 +197,7 @@ const mapStateToProps = (state, ownProps) => {
     if (todoList) {
       todoList.id = id;
       itemIndex = index ? parseInt(index, 10) : todoList.items.length;
-      todoItem = index ? todoList.items[itemIndex] : null;
+      todoItem = index ? todoList.items[todoList.items.findIndex(x => x.key === itemIndex)] : null;
 
     }
 
