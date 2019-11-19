@@ -15,7 +15,7 @@ class HomeScreen extends Component {
         if(doc){
             console.log(doc)
             // return <Redirect to={`/todoList/${doc.id}`}/>
-            this.props.history.push(`/todoList/${doc.id}`)
+            this.props.history.push(`/todoList/${doc.getId()}`)
         }
         
     }

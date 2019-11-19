@@ -30,6 +30,7 @@ class App extends Component {
               <Route path="/login" component={LoginScreen} />
               <Route exact path="/todoList/:id?" component={ListScreen} />
               <Route exact path="/todoList/:id/item/:index?" component={ItemScreen}/>
+              <Route path="/:any" component={HomeScreen} />
             </Switch>
           </div>
         </BrowserRouter>
