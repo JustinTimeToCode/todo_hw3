@@ -92,10 +92,15 @@ class ListScreen extends Component {
             )
         } else {
             return (
-                // <div className="container">
-                //     <strong>Loading List Data...</strong>
-                // </div>
-                <span>Loading List...</span>
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
             )    
         }
 

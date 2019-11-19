@@ -26,13 +26,13 @@ class HomeScreen extends Component {
         }
 
         return (
-            <div className="dashboard container">
+            <div className="dashboard">
                 <div className="row">
-                    <div className="col s12 m4">
+                    <div className="col s6">
                         <TodoListLinks />
                     </div>
 
-                    <div className="col s8">
+                    <div className="col s6">
                         <div className="banner">
                             @todo<br />
                             List Maker

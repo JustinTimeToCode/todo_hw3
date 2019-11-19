@@ -172,7 +172,16 @@ export class ItemScreen extends Component {
             )
         } else {
             return (
-                <span> Loading Item... </span>
+                
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
             )
         }
 
