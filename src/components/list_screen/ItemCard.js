@@ -52,17 +52,17 @@ class ItemCard extends React.Component {
                             <span className="card-title">{item.due_date}</span>    
                         </div>
                         <div className="col s3">
-                            <span className={item.completed ? "green-text card-title" : "red-text card-title"}>{item.completed ? 'Completed' : 'Pending'}</span>    
+                            <span className={item.completed ? "blue-text card-title" : "red-text card-title"}>{item.completed ? 'Completed' : 'Pending'}</span>    
                         </div>
                         <div className="col s3 valign-wrapper">
                             <div className="fixed-action-btn horizontal direction-left" style={{position: 'absolute', right: '24px', display: 'inline-block'}}>
-                                <a href="#!" className="btn-floating btn-large red">
+                                <a href="#!" className="btn-floating btn-large blue lighten-1">
                                     <i className="large material-icons">mode_edit</i>
                                 </a>
                                 <ul>
-                                    <li><button onClick={this.handleMoveItemUp} className="btn-floating red"><i className="material-icons">arrow_upward</i></button></li>
-                                    <li><button onClick={this.handleMoveItemDown} className="btn-floating red"><i className="material-icons">arrow_downward</i></button></li>
-                                    <li><button onClick={this.handleDeleteItem} className="btn-floating red"><i className="material-icons">close</i></button></li>
+                                    <li><button onClick={this.handleMoveItemUp} className="btn-floating blue lighten-1"><i className="material-icons">arrow_upward</i></button></li>
+                                    <li><button onClick={this.handleMoveItemDown} className="btn-floating blue lighten-1"><i className="material-icons">arrow_downward</i></button></li>
+                                    <li><button onClick={this.handleDeleteItem} className="btn-floating blue lighten-1"><i className="material-icons">close</i></button></li>
                                 </ul>
                             </div>
                         </div>

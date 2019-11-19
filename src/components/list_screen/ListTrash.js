@@ -14,7 +14,7 @@ export class ListTrash extends Component {
     render() {
         return (
             <div id="list_trash">
-                    <button data-target="modal1" className="waves-effect waves-light btn modal-trigger">
+                    <button data-target="modal1" className="waves-effect waves-light btn blue lighten-1 modal-trigger">
                         <i className="large material-icons">delete</i>
                     </button>
             </div>

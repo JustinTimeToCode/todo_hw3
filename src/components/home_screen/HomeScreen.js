@@ -39,7 +39,7 @@ class HomeScreen extends Component {
                         </div>
                         
                         <div className="home_new_list_container">
-                                <button className="home_new_list_button" onClick={this.handleNewList.bind(this)}>
+                                <button className="home_new_list_button black-text" onClick={this.handleNewList.bind(this)}>
                                     Create a New To Do List
                                 </button>
                         </div>

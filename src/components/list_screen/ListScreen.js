@@ -74,17 +74,17 @@ class ListScreen extends Component {
         }
         if (todoList) {
             return (
-                <div className="container white">
+                <div className=" white">
                     <ListTrash/>
                     <Modal deleteList={this.handleDeleteList} todoList={this.props.todoList}/>
                     <h5 className="grey-text text-darken-3">Todo List</h5>
                     <div className="input-field">
-                        <label htmlFor="name">Name</label>
-                        <input value={todoList.name} className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} value={todoList.name} />
+                        <label className="active" htmlFor="name">Name</label>
+                        <input value={todoList.name} className="active" ref={this.listNameRef} type="text" name="name" id="name" onChange={this.handleNameChange} />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="password">Owner</label>
-                        <input value={todoList.owner} className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} value={todoList.owner} />
+                        <label className="active" htmlFor="owner">Owner</label>
+                        <input value={todoList.owner} className="active" ref={this.listOwnerRef} type="text" name="owner" id="owner" onChange={this.handleOwnerChange} />
                     </div>
                     <ListHeader todoList={this.props.todoList}/>
                     <ItemsList todoList={todoList} />

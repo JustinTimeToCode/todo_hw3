@@ -88,7 +88,7 @@ export class ListHeader extends Component {
         return (
             <nav>
                 
-                    <div className="row nav-wrapper teal lighten-3 valign-wrapper">
+                    <div className="row nav-wrapper blue darken-3 valign-wrapper">
                         <div className="col s3">
                             <h5 onClick={this.handleSortByTask} className="center-align">Task</h5>
                         </div>
